@@ -1,80 +1,290 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>Google Form 자동 제출 테스트</title>
+  <meta charset="UTF-8" />
+  <title>11주차 실습 피드백</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: "Noto Sans KR", sans-serif;
-      max-width: 500px;
-      margin: 60px auto;
-      padding: 20px;
-      background: #fafafa;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin: 0;
+      padding: 0;
+      font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #1f2933, #111827);
+      color: #111827;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
     }
-    h2 {
-      text-align: center;
+
+    .wrapper {
+      width: 100%;
+      max-width: 720px;
+      padding: 32px 16px 48px;
     }
-    label {
+
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 24px 20px 28px;
+      box-shadow: 0 18px 35px rgba(0, 0, 0, 0.25);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(55, 65, 81, 0.1);
+      color: #4b5563;
+      margin-bottom: 8px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin: 4px 0 4px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
+
+    .divider {
+      height: 1px;
+      background: #e5e7eb;
+      margin: 12px 0 18px;
+    }
+
+    .field-group {
+      margin-bottom: 18px;
+    }
+
+    .field-label {
+      font-size: 14px;
       font-weight: 600;
-      display: block;
-      margin-top: 20px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-    input, textarea {
+
+    .required-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ef4444;
+    }
+
+    input[type="text"],
+    textarea {
       width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      padding: 10px 11px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      resize: vertical;
+      min-height: 42px;
     }
+
+    textarea {
+      min-height: 70px;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.3);
+    }
+
+    .hint {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .footer {
+      margin-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .info-text {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
     button {
-      margin-top: 25px;
-      width: 100%;
-      padding: 12px;
-      background: #4a68f7;
-      color: white;
-      font-size: 16px;
+      padding: 9px 18px;
+      border-radius: 999px;
       border: none;
-      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
+      background: #4f46e5;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 10px 20px rgba(79, 70, 229, 0.35);
     }
-    button:hover {
-      background: #3b55d3;
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .check-icon {
+      font-size: 14px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      background: rgba(17, 24, 39, 0.95);
+      color: #e5e7eb;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 20px 16px 24px;
+      }
+      h1 {
+        font-size: 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <h2>학습 피드백 기록</h2>
+  <div class="wrapper">
+    <div class="card">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        2025.11.10 · 프로그래밍 실습 피드백
+      </div>
+      <h1>오늘 수업, 어땠나요?</h1>
+      <p class="subtitle">
+        아래 질문에 편하게 작성해 주세요. 내용은 수업 개선에만 사용됩니다.
+      </p>
 
-  <form id="feedbackForm">
-    <label>오늘 만든 앱의 기능이나 원리를 본인이 이해한 대로 설명해 보세요.</label>
-    <textarea id="answer1" rows="3" required></textarea>
+      <div class="divider"></div>
 
-    <label>앱을 만들면서 가장 어려웠던 부분은 무엇이었나요?</label>
-    <textarea id="answer2" rows="3" required></textarea>
+      <form id="feedbackForm">
+        <div class="field-group">
+          <div class="field-label">
+            <span class="required-dot"></span>
+            이름
+          </div>
+          <input type="text" id="name" placeholder="이름을 입력하세요." required />
+        </div>
 
-    <button type="submit">제출하기</button>
-  </form>
+        <div class="field-group">
+          <div class="field-label">
+            <span class="required-dot"></span>
+            오늘 만든 앱의 기능이나 원리를 본인이 이해한 대로 간단히 설명해 보세요.
+          </div>
+          <textarea
+            id="answer1"
+            placeholder="예) 버튼을 누르면 입력한 값을 기반으로 결과를 계산해서 화면에 보여주는 구조입니다."
+            required
+          ></textarea>
+          <div class="hint">어렵게 쓰지 말고, 편하게 한두 문장으로 적어도 괜찮아요.</div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">
+            <span class="required-dot"></span>
+            앱을 만들면서 가장 어려웠던 부분은 무엇이었나요?
+          </div>
+          <textarea
+            id="answer2"
+            placeholder="예) fetch 부분에서 오류가 나서 원인을 찾는 것이 어려웠습니다."
+            required
+          ></textarea>
+        </div>
+
+        <div class="footer">
+          <div class="info-text">
+            제출 후에는 Google 설문에서만 내용을 확인할 수 있습니다.
+          </div>
+          <button type="submit" id="submitBtn">
+            <span class="check-icon">📮</span>
+            제출하기
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">제출되었습니다. 감사합니다 🙌</div>
 
   <script>
-    document.getElementById("feedbackForm").addEventListener("submit", function(e) {
+    const form = document.getElementById("feedbackForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const toast = document.getElementById("toast");
+
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const formUrl = "https://docs.google.com/forms/d/1qr0h9Zs0SQ8UpXjXz_KuWaJRR7JW5Ducg9tvHrVV9S4/formResponse";
+      submitBtn.disabled = true;
+      submitBtn.textContent = "전송 중...";
+
+      const formUrl =
+        "https://docs.google.com/forms/d/e/1FAIpQLSe6tQObFH8kvOYEcL_rGRXUy9ULEEIBgneSc0VsMmm8pLNenQ/formResponse";
 
       const data = new FormData();
+      data.append("entry.1152452213", document.getElementById("name").value);
       data.append("entry.1528732496", document.getElementById("answer1").value);
       data.append("entry.1553323253", document.getElementById("answer2").value);
 
       fetch(formUrl, {
         method: "POST",
         mode: "no-cors",
-        body: data
+        body: data,
       });
 
-      alert("제출되었습니다! Google Form 시트에서 확인할 수 있습니다.");
-      document.getElementById("feedbackForm").reset();
+      form.reset();
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span class="check-icon">📮</span> 제출하기';
+
+      // 작은 토스트 알림
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2000);
     });
   </script>
 </body>

@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>11주차 실습 피드백</title>
+  <title>11주차 프로그래밍 실습 피드백</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
@@ -13,62 +13,118 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #1f2933, #111827);
-      color: #111827;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans KR",
+        sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 55%);
+      color: #e5e7eb;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      min-height: 100vh;
     }
 
     .wrapper {
       width: 100%;
-      max-width: 720px;
+      max-width: 840px;
       padding: 32px 16px 48px;
     }
 
-    .card {
-      background: #ffffff;
+    /* 코드 에디터 윈도우 */
+    .window {
+      background: #020617;
       border-radius: 18px;
-      padding: 24px 20px 28px;
-      box-shadow: 0 18px 35px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 22px 40px rgba(0, 0, 0, 0.55);
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .window-header {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      background: linear-gradient(to right, #020617, #111827);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 6px;
+      margin-right: 10px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+    }
+    .dot.red {
+      background: #f97373;
+    }
+    .dot.yellow {
+      background: #facc15;
+    }
+    .dot.green {
+      background: #4ade80;
+    }
+
+    .window-title {
+      font-size: 13px;
+      color: #9ca3af;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    .content {
+      padding: 20px 20px 24px;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 12px;
-      padding: 4px 10px;
+      font-size: 11px;
+      padding: 4px 9px;
       border-radius: 999px;
-      background: rgba(55, 65, 81, 0.1);
-      color: #4b5563;
+      background: rgba(15, 118, 110, 0.2);
+      color: #5eead4;
       margin-bottom: 8px;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
     }
 
     .badge-dot {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: #10b981;
+      background: #22c55e;
     }
 
     h1 {
       font-size: 22px;
-      margin: 4px 0 4px;
+      margin: 4px 0 2px;
     }
 
     .subtitle {
       font-size: 13px;
-      color: #6b7280;
-      margin-bottom: 20px;
+      color: #9ca3af;
+      margin-bottom: 16px;
+    }
+
+    .subtitle code {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
     }
 
     .divider {
       height: 1px;
-      background: #e5e7eb;
-      margin: 12px 0 18px;
+      background: radial-gradient(circle, #16a34a, transparent);
+      opacity: 0.4;
+      margin: 10px 0 16px;
     }
 
     .field-group {
@@ -76,41 +132,60 @@
     }
 
     .field-label {
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 13px;
+      font-weight: 500;
       margin-bottom: 6px;
+      color: #e5e7eb;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
-    .required-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #ef4444;
+    .field-label code {
+      font-size: 11px;
+      color: #22c55e;
+      background: rgba(22, 163, 74, 0.1);
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    .required {
+      font-size: 11px;
+      color: #f97373;
     }
 
     input[type="text"],
     textarea {
       width: 100%;
-      padding: 10px 11px;
+      padding: 9px 11px;
       border-radius: 10px;
-      border: 1px solid #d1d5db;
-      font-size: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 13px;
+      background: rgba(15, 23, 42, 0.95);
+      color: #e5e7eb;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
       resize: vertical;
-      min-height: 42px;
+      min-height: 40px;
     }
 
     textarea {
       min-height: 70px;
     }
 
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(148, 163, 184, 0.7);
+    }
+
     input:focus,
     textarea:focus {
       outline: none;
-      border-color: #6366f1;
-      box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.3);
+      border-color: #22c55e;
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.4);
     }
 
     .hint {
@@ -130,22 +205,34 @@
 
     .info-text {
       font-size: 11px;
-      color: #9ca3af;
+      color: #6b7280;
+    }
+
+    .info-text code {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
+      color: #a5b4fc;
     }
 
     button {
-      padding: 9px 18px;
+      padding: 8px 18px;
       border-radius: 999px;
-      border: none;
-      font-size: 14px;
+      border: 1px solid rgba(34, 197, 94, 0.7);
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      background: #4f46e5;
-      color: #ffffff;
+      background: linear-gradient(135deg, #16a34a, #22c55e);
+      color: #f9fafb;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 10px 20px rgba(79, 70, 229, 0.35);
+      box-shadow: 0 14px 30px rgba(22, 163, 74, 0.45);
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    button span.icon {
+      font-size: 14px;
     }
 
     button:disabled {
@@ -154,23 +241,23 @@
       box-shadow: none;
     }
 
-    .check-icon {
-      font-size: 14px;
-    }
-
     .toast {
       position: fixed;
       right: 16px;
       bottom: 16px;
-      background: rgba(17, 24, 39, 0.95);
+      background: rgba(15, 23, 42, 0.96);
       color: #e5e7eb;
-      padding: 10px 14px;
+      padding: 9px 13px;
       border-radius: 12px;
-      font-size: 13px;
+      font-size: 12px;
       opacity: 0;
       transform: translateY(8px);
       pointer-events: none;
-      transition: opacity 0.2s ease, transform 0.2s ease;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      border: 1px solid rgba(52, 211, 153, 0.6);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
     }
 
     .toast.show {
@@ -178,78 +265,107 @@
       transform: translateY(0);
     }
 
-    @media (max-width: 480px) {
-      .card {
-        padding: 20px 16px 24px;
+    @media (max-width: 520px) {
+      .content {
+        padding: 16px 14px 18px;
       }
       h1 {
-        font-size: 20px;
+        font-size: 19px;
+      }
+      .subtitle {
+        font-size: 12px;
       }
     }
   </style>
 </head>
 <body>
   <div class="wrapper">
-    <div class="card">
-      <div class="badge">
-        <span class="badge-dot"></span>
-        2025.11.10 · 프로그래밍 실습 피드백
+    <div class="window">
+      <div class="window-header">
+        <div class="window-dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <div class="window-title">feedback_11week.c</div>
       </div>
-      <h1>오늘 수업, 어땠나요?</h1>
-      <p class="subtitle">
-        아래 질문에 편하게 작성해 주세요. 내용은 수업 개선에만 사용됩니다.
-      </p>
 
-      <div class="divider"></div>
-
-      <form id="feedbackForm">
-        <div class="field-group">
-          <div class="field-label">
-            <span class="required-dot"></span>
-            이름
-          </div>
-          <input type="text" id="name" placeholder="이름을 입력하세요." required />
+      <div class="content">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          2025.11.10 · 전자과 프로그래밍 실습
         </div>
 
-        <div class="field-group">
-          <div class="field-label">
-            <span class="required-dot"></span>
-            오늘 만든 앱의 기능이나 원리를 본인이 이해한 대로 간단히 설명해 보세요.
-          </div>
-          <textarea
-            id="answer1"
-            placeholder="예) 버튼을 누르면 입력한 값을 기반으로 결과를 계산해서 화면에 보여주는 구조입니다."
-            required
-          ></textarea>
-          <div class="hint">어렵게 쓰지 말고, 편하게 한두 문장으로 적어도 괜찮아요.</div>
-        </div>
+        <h1>오늘 코드, 잘 돌아갔나요?</h1>
+        <p class="subtitle">
+          한 줄씩 코드를 디버깅하듯이, 오늘 수업을 간단히 정리해 봅시다.
+          아래 내용을 작성하면 <code>Google Form</code>으로 자동 전송됩니다.
+        </p>
 
-        <div class="field-group">
-          <div class="field-label">
-            <span class="required-dot"></span>
-            앱을 만들면서 가장 어려웠던 부분은 무엇이었나요?
-          </div>
-          <textarea
-            id="answer2"
-            placeholder="예) fetch 부분에서 오류가 나서 원인을 찾는 것이 어려웠습니다."
-            required
-          ></textarea>
-        </div>
+        <div class="divider"></div>
 
-        <div class="footer">
-          <div class="info-text">
-            제출 후에는 Google 설문에서만 내용을 확인할 수 있습니다.
+        <form id="feedbackForm">
+          <div class="field-group">
+            <div class="field-label">
+              <code>Q0 · name</code>
+              <span>이름</span>
+              <span class="required">*</span>
+            </div>
+            <input
+              type="text"
+              id="name"
+              placeholder="예) 홍길동"
+              required
+            />
           </div>
-          <button type="submit" id="submitBtn">
-            <span class="check-icon">📮</span>
-            제출하기
-          </button>
-        </div>
-      </form>
+
+          <div class="field-group">
+            <div class="field-label">
+              <code>Q1 · logic</code>
+              <span>오늘 만든 앱의 기능이나 원리를 본인이 이해한 대로 간단히 설명해 보세요.</span>
+              <span class="required">*</span>
+            </div>
+            <textarea
+              id="answer1"
+              placeholder="예) 버튼을 누르면 입력값을 받아서 fetch로 서버에 보내고, 응답을 다시 화면에 렌더링하는 구조입니다."
+              required
+            ></textarea>
+            <div class="hint">
+              완벽한 설명이 아니어도 괜찮습니다. 본인이 이해한 수준에서 편하게 적어보세요.
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="field-label">
+              <code>Q2 · debug</code>
+              <span>앱을 만들면서 가장 어려웠던 부분은 무엇이었나요?</span>
+              <span class="required">*</span>
+            </div>
+            <textarea
+              id="answer2"
+              placeholder="예) 콘솔 에러 메시지를 읽고 원인을 찾는 부분이 가장 어려웠습니다."
+              required
+            ></textarea>
+          </div>
+
+          <div class="footer">
+            <div class="info-text">
+              전송은 <code>no-cors</code> 모드로 처리되며,<br />
+              응답 확인은 Google 설문/시트에서만 가능합니다.
+            </div>
+            <button type="submit" id="submitBtn">
+              <span class="icon">▶</span>
+              run submit()
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
-  <div id="toast" class="toast">제출되었습니다. 감사합니다 🙌</div>
+  <div id="toast" class="toast">
+    ✔ submit() 완료 : 설문에 기록되었습니다.
+  </div>
 
   <script>
     const form = document.getElementById("feedbackForm");
@@ -260,14 +376,17 @@
       e.preventDefault();
 
       submitBtn.disabled = true;
-      submitBtn.textContent = "전송 중...";
+      submitBtn.innerHTML = '<span class="icon">...</span> sending...';
 
       const formUrl =
         "https://docs.google.com/forms/d/e/1FAIpQLSe6tQObFH8kvOYEcL_rGRXUy9ULEEIBgneSc0VsMmm8pLNenQ/formResponse";
 
       const data = new FormData();
+      // 이름
       data.append("entry.1152452213", document.getElementById("name").value);
+      // 오늘 만든 앱 기능/원리
       data.append("entry.1528732496", document.getElementById("answer1").value);
+      // 가장 어려웠던 부분
       data.append("entry.1553323253", document.getElementById("answer2").value);
 
       fetch(formUrl, {
@@ -278,9 +397,8 @@
 
       form.reset();
       submitBtn.disabled = false;
-      submitBtn.innerHTML = '<span class="check-icon">📮</span> 제출하기';
+      submitBtn.innerHTML = '<span class="icon">▶</span> run submit()';
 
-      // 작은 토스트 알림
       toast.classList.add("show");
       setTimeout(() => {
         toast.classList.remove("show");

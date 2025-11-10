@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Google Form 자동 제출 테스트</title>
+  <style>
+    body {
+      font-family: "Noto Sans KR", sans-serif;
+      max-width: 500px;
+      margin: 60px auto;
+      padding: 20px;
+      background: #fafafa;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 20px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background: #4a68f7;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #3b55d3;
+    }
+  </style>
+</head>
+<body>
+  <h2>학습 피드백 기록</h2>
+
+  <form id="feedbackForm">
+    <label>오늘 만든 앱의 기능이나 원리를 본인이 이해한 대로 설명해 보세요.</label>
+    <textarea id="answer1" rows="3" required></textarea>
+
+    <label>앱을 만들면서 가장 어려웠던 부분은 무엇이었나요?</label>
+    <textarea id="answer2" rows="3" required></textarea>
+
+    <button type="submit">제출하기</button>
+  </form>
+
+  <script>
+    document.getElementById("feedbackForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const formUrl = "https://docs.google.com/forms/d/1qr0h9Zs0SQ8UpXjXz_KuWaJRR7JW5Ducg9tvHrVV9S4/formResponse";
+
+      const data = new FormData();
+      data.append("entry.1528732496", document.getElementById("answer1").value);
+      data.append("entry.1553323253", document.getElementById("answer2").value);
+
+      fetch(formUrl, {
+        method: "POST",
+        mode: "no-cors",
+        body: data
+      });
+
+      alert("제출되었습니다! Google Form 시트에서 확인할 수 있습니다.");
+      document.getElementById("feedbackForm").reset();
+    });
+  </script>
+</body>
+</html>
